@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+import streamlit as st
 
 import plotly.express as px
 from plotly.subplots import make_subplots
@@ -459,6 +460,7 @@ def zel_hist_estratos_vs_cases(df, col):
     # Show the interactive plot
     return fig
 
+@st.cache_data
 def load_file(filename, sep=","):
     df = pd.read_csv(filename, sep=sep)
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
