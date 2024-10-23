@@ -1,6 +1,12 @@
 import streamlit as st
 from datetime import datetime
 from src.data import mapping, CLIMATE_COL
+from src.villa_utils import (
+    vill_plot_boxplot_duration_internado_plotly,
+    vill_plot_pie_chart_city_distribution,
+    vill_plot_age_distribution_by_gender_plotly,
+    vill_plot_frequency_of_visits_over_time_plotly
+)
 from src.utils import (load_file,
                        zel_hist_months_vs_cases,
                        zel_pie_analysis_lab,
@@ -54,7 +60,6 @@ def zelaya_analysis():
 
         if st.checkbox(label="Analisis De ciudad o municipio de origen de los enfermos"):
             st.session_state["zel_plot_city_histogram_plotly"] = True
-            
         else:
             st.session_state["zel_plot_city_histogram_plotly"] = None
 
@@ -140,6 +145,44 @@ def villadiego_analysis():
         data = load_file(data_path, sep=";")
         st.table(data.head(2))
         st.write("Dengue en Barranquilla")
+
+        if st.checkbox(label="Analisis duración de internado de casos de dengue"):
+            st.session_state["vill_plot_boxplot_duration_internado_plotly"] = vill_plot_boxplot_duration_internado_plotly(data)
+        else:
+            st.session_state["vill_plot_boxplot_duration_internado_plotly"] = None
+
+        if st.session_state.get("vill_plot_boxplot_duration_internado_plotly"):
+            st.write("Analisis duración de internado de casos de dengue")
+            st.plotly_chart(st.session_state.get("vill_plot_boxplot_duration_internado_plotly"))
+
+        if st.checkbox(label="Analisis de distribucion de casos de dengue en los municipios"):
+            st.session_state["vill_plot_pie_chart_city_distribution"] = vill_plot_pie_chart_city_distribution(data)
+        else:
+            st.session_state["vill_plot_pie_chart_city_distribution"] = None
+
+        if st.session_state.get("vill_plot_pie_chart_city_distribution"):
+            st.write("Analisis de distribucion de casos de dengue en los municipios con más casos")
+            st.plotly_chart(st.session_state.get("vill_plot_pie_chart_city_distribution"))
+
+        if st.checkbox(label="Analisis de distribucion de casos de dengue por Sexo"):
+            st.session_state["vill_plot_age_distribution_by_gender_plotly"] = vill_plot_age_distribution_by_gender_plotly(data)
+        else:
+            st.session_state["vill_plot_age_distribution_by_gender_plotly"] = None
+
+        if st.session_state.get("vill_plot_age_distribution_by_gender_plotly"):
+            st.write("Analisis de distribucion de casos de dengue por Sexo")
+            st.plotly_chart(st.session_state.get("vill_plot_age_distribution_by_gender_plotly"))
+
+        if st.checkbox(label="Analisis de Frecuencia de visitas sobre el tiempo registrado"):
+            st.session_state["vill_plot_frequency_of_visits_over_time_plotly"] = vill_plot_frequency_of_visits_over_time_plotly(data)
+        else:
+            st.session_state["vill_plot_frequency_of_visits_over_time_plotly"] = None
+
+        if st.session_state.get("vill_plot_frequency_of_visits_over_time_plotly"):
+            st.write("Analisis de Frecuencia de visitas sobre el tiempo registrado")
+            st.plotly_chart(st.session_state.get("vill_plot_frequency_of_visits_over_time_plotly"))
+
+
     elif data_selection == "colombia":
         data = load_file(data_path, sep=",")
         st.table(data.head(2))
