@@ -13,6 +13,8 @@ from netCDF4 import Dataset
 import json
 from urllib.request import urlopen
 
+import streamlit as st
+
 def vill_plot_age_by_estrato(datosColombia23):
     # Convert 'estrato' column to numeric, handling errors
     datosColombia23['estrato'] = pd.to_numeric(datosColombia23['estrato'], errors='coerce')
@@ -338,6 +340,7 @@ def vill_plot_dengue_density_bar_by_deparment(datosColombia23):
     
     return fig_bar
 
+@st.cache_resource
 def vill_plot_dengue_choropleth(datosColombia23):
     # Load GeoJSON data for Colombia
     with urlopen('https://gist.githubusercontent.com/john-guerra/43c7656821069d00dcbc/raw/be6a6e239cd5b5b803c6e7c2ec405b793a9064dd/Colombia.geo.json') as response:

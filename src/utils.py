@@ -252,7 +252,7 @@ def load_netcdf_file(f_path):
 #    return fig
 
 
-
+@st.cache_resource
 def zel_create_dengue_choropleth_map(df, column_name='Departamento_ocurrencia'):
     # Load the GeoJSON data for Colombia
     with urlopen('https://gist.githubusercontent.com/john-guerra/43c7656821069d00dcbc/raw/be6a6e239cd5b5b803c6e7c2ec405b793a9064dd/Colombia.geo.json') as response:
