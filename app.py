@@ -53,14 +53,16 @@ def zelaya_analysis():
             st.plotly_chart(st.session_state.get("zel_plot_scatter_age_vs_hospital_days"))
 
         if st.checkbox(label="Analisis De ciudad o municipio de origen de los enfermos"):
-            st.session_state["zel_plot_city_histogram_plotly"] = zel_plot_city_histogram_plotly(data)
+            st.session_state["zel_plot_city_histogram_plotly"] = True
+            
         else:
             st.session_state["zel_plot_city_histogram_plotly"] = None
 
         if st.session_state.get("zel_plot_city_histogram_plotly"):
             st.write("Analisis de relación entre la enfermedad y el municipio de origen")
-            st.plotly_chart(st.session_state.get("zel_plot_city_histogram_plotly"))
-            
+            num_dep_selected = st.number_input(label="#Municipios/Ciudades", min_value=1, max_value=22, value=5)
+            st.write(f"Mostrando análisis para los {num_dep_selected} municipios/ciudades con más casos de dengue.")
+            st.plotly_chart(zel_plot_city_histogram_plotly(data, num_dep_selected))
 
     elif data_selection == "colombia":
         data = load_file(data_path, sep=",")

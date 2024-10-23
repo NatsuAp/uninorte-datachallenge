@@ -13,30 +13,25 @@ from netCDF4 import Dataset
 import json
 from urllib.request import urlopen
 
-def zel_plot_city_histogram_plotly(df):
-    # Group by 'city' and count occurrences
-    city_counts = df.groupby(df['city']).size()
-
-    # Filter for cities with more than 5 occurrences
-    filtered_cities = city_counts[city_counts > 5].index
-    filtered_df = df[df['city'].isin(filtered_cities)]
-
+def zel_plot_city_histogram_plotly(df, min_num=1):
     # Get the filtered city counts
-    city_value_counts = filtered_df['city'].value_counts()
+    city_value_counts = df['city'].value_counts().reset_index()
+    city_value_counts.columns = ["City", "Count"]
+    city_value_counts = city_value_counts.iloc[:min_num, :]
 
     # Create the bar chart using Plotly
     fig = go.Figure()
 
     # Add the bar chart trace
     fig.add_trace(go.Bar(
-        x=city_value_counts.index,   # Cities on the x-axis
-        y=city_value_counts.values,  # Frequencies on the y-axis
+        x=city_value_counts["City"],   # Cities on the x-axis
+        y=city_value_counts["Count"],  # Frequencies on the y-axis
         marker_color='#4682B4',      # Bar color (blue)
     ))
 
     # Update the layout of the chart
     fig.update_layout(
-        title="Histograma de las Ciudades > 5",
+        title=f"Histograma de las Ciudades",
         xaxis_title="Ciudad",
         yaxis_title="Frecuencia",
         xaxis_tickangle=-45,  # Rotate x-axis labels for better readability
