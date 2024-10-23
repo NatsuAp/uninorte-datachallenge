@@ -7,7 +7,12 @@ from src.utils import (load_file,
                        zel_box_plot_analysis,
                        zel_hist_estratos_vs_cases,
                        zel_pie_hist_departments,
-                       zel_create_dengue_choropleth_map)
+                       zel_create_dengue_choropleth_map,
+                       zel_data_per_deparments_and_montsh,
+                       zel_plot_timeline_condition_start_date_plotly,
+                       zel_plot_boxplot_edad_plotly,
+                       zel_plot_scatter_age_vs_hospital_days,
+                       zel_plot_city_histogram_plotly)
                        # zel_create_precipitation_map)
 
 def zelaya_analysis():
@@ -17,7 +22,46 @@ def zelaya_analysis():
     data_path = mapping[data_selection]
     if data_selection == "barranquilla":
         data = load_file(data_path, sep=";")
-        pass
+        st.table(data.head(2))
+        st.write("Dengue en Barranquilla")
+
+        if st.checkbox(label="Linea de Tiempo cuando la condición comenzó"):
+            st.session_state["zel_plot_timeline_condition_start_date_plotly"] = zel_plot_timeline_condition_start_date_plotly(data)
+        else:
+            st.session_state["zel_plot_timeline_condition_start_date_plotly"] = None
+
+        if st.session_state.get("zel_plot_timeline_condition_start_date_plotly"):
+            st.write("Analisis Timeline condition start date by year")
+            st.plotly_chart(st.session_state.get("zel_plot_timeline_condition_start_date_plotly"))
+
+        if st.checkbox(label="Distribución de la edad en los casos de Barranquilla"):
+            st.session_state["zel_plot_boxplot_edad_plotly"] = zel_plot_boxplot_edad_plotly(data)
+        else:
+            st.session_state["zel_plot_boxplot_edad_plotly"] = None
+
+        if st.session_state.get("zel_plot_boxplot_edad_plotly"):
+            st.write("Analisis BoxPlot de los Edad de los enfermos")
+            st.plotly_chart(st.session_state.get("zel_plot_boxplot_edad_plotly"))
+
+        if st.checkbox(label="Analisis Edad y Estadía en el hóspital"):
+            st.session_state["zel_plot_scatter_age_vs_hospital_days"] = zel_plot_scatter_age_vs_hospital_days(data)
+        else:
+            st.session_state["zel_plot_scatter_age_vs_hospital_days"] = None
+
+        if st.session_state.get("zel_plot_scatter_age_vs_hospital_days"):
+            st.write("Analisis de relación entre la Edad y qué tan grave dio la enfermedad")
+            st.plotly_chart(st.session_state.get("zel_plot_scatter_age_vs_hospital_days"))
+
+        if st.checkbox(label="Analisis De ciudad o municipio de origen de los enfermos"):
+            st.session_state["zel_plot_city_histogram_plotly"] = zel_plot_city_histogram_plotly(data)
+        else:
+            st.session_state["zel_plot_city_histogram_plotly"] = None
+
+        if st.session_state.get("zel_plot_city_histogram_plotly"):
+            st.write("Analisis de relación entre la enfermedad y el municipio de origen")
+            st.plotly_chart(st.session_state.get("zel_plot_city_histogram_plotly"))
+            
+
     elif data_selection == "colombia":
         data = load_file(data_path, sep=",")
         st.table(data.head(2))
@@ -69,6 +113,17 @@ def zelaya_analysis():
             num_dep_selected = st.number_input(label="#Departamentos", min_value=5, max_value=40, value=10)
             st.write(f"Mostrando análisis para los {num_dep_selected} departamentos con más casos de dengue.")
             st.plotly_chart(zel_pie_hist_departments(data, "Departamento_ocurrencia", bins=num_dep_selected))
+
+        if st.checkbox(label="Analisis de casos por departamento y por mes"):
+            st.session_state["zel_data_per_deparments_and_montsh"] = True
+        else:
+            st.session_state["zel_data_per_deparments_and_montsh"] = None
+
+        if st.session_state.get("zel_data_per_deparments_and_montsh"):
+            st.write("Analisis de casos por departamento y por mes")
+            num_dep_selected = st.number_input(label="#Departamentos", min_value=5, max_value=40, value=10)
+            st.write(f"Mostrando análisis para los {num_dep_selected} departamentos con más casos de dengue por cada mes.")
+            st.plotly_chart(zel_data_per_deparments_and_montsh(data, num_dep_selected))
 
         st.header("Visualización Mapa")
         st.plotly_chart(zel_create_dengue_choropleth_map(data, "Departamento_ocurrencia"))
