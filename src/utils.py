@@ -406,6 +406,7 @@ def zel_pie_hist_departments(df, column_name='Departamento_ocurrencia', bins=32)
     fig = make_subplots(rows=2,
                         cols=1,
                         subplot_titles=("Histograma Departments vs Cases", "Pie Plot Cases percentage"),
+                        vertical_spacing=0.3,  # Adjust spacing between rows
                         specs=[[{"type": "xy"}],[{"type": "domain"}]])
 
     fig.add_trace(go.Bar(
@@ -419,13 +420,13 @@ def zel_pie_hist_departments(df, column_name='Departamento_ocurrencia', bins=32)
         labels=department_counts['Departamento'], 
         values=department_counts['Frecuencia'], 
         name='Pie Chart',
-    ), row=2, col=2)
+    ), row=2, col=1)
 
     # Update layout
     fig.update_layout(
         title_text="Analisis de casos por departamento",
         showlegend=False,  # Hide legend since it's repetitive across subplots
-        height=400,
+        height=800,
         template="plotly_white"
     )
 
