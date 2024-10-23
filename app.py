@@ -123,7 +123,7 @@ def zelaya_analysis():
 
         if st.session_state.get("zel_data_per_deparments_and_montsh"):
             st.write("Analisis de casos por departamento y por mes")
-            num_dep_selected = st.number_input(label="#Departamentos", min_value=5, max_value=40, value=10)
+            num_dep_selected = st.number_input(label="#SelectedDepartamentos", min_value=5, max_value=40, value=10)
             st.write(f"Mostrando análisis para los {num_dep_selected} departamentos con más casos de dengue por cada mes.")
             st.plotly_chart(zel_data_per_deparments_and_montsh(data, num_dep_selected))
 
@@ -134,6 +134,17 @@ def zelaya_analysis():
 def villadiego_analysis():
     import streamlit as st
     st.header("EDA Dengue")
+    data_selection = st.selectbox(label="Select Data to Analyze", options=mapping.keys())
+    data_path = mapping[data_selection]
+    if data_selection == "barranquilla":
+        data = load_file(data_path, sep=";")
+        st.table(data.head(2))
+        st.write("Dengue en Barranquilla")
+    elif data_selection == "colombia":
+        data = load_file(data_path, sep=",")
+        st.table(data.head(2))
+        st.write("Dengue en Colombia 2023")
+
 
 #def all_join_analysis():
 #    import streamlit as st
