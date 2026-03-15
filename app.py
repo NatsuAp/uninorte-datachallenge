@@ -18,7 +18,7 @@ from src.villa_utils import (
 from src.utils import (load_file)
 
 def villadiego_analysis():
-    
+    data = None
     st.header("EDA Dengue")
     data_selection = st.selectbox(label="Escoge datos a analizar", options=mapping.keys())
    
