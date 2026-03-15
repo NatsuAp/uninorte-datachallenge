@@ -23,8 +23,8 @@ def villadiego_analysis():
     data_selection = st.selectbox(label="Escoge datos a analizar", options=mapping.keys())
     data_path = mapping[data_selection]
     if data_selection == "barranquilla":
-        # data = load_file(data_path, sep=";")
-        # st.table(data.head(2))
+        data = load_file(data_path, sep=";")
+        # st.table(data.head(2))  *Da error al montar en streamlit
         st.write("Dengue en Barranquilla")
 
         if st.checkbox(label="Analisis duración de internado de casos de dengue"):
@@ -65,7 +65,7 @@ def villadiego_analysis():
 
     elif data_selection == "colombia":
         data = load_file(data_path, sep=",")
-        st.table(data.head(2))
+        #st.table(data.head(2)) *Da error al montar en streamlit
         st.write("Dengue en Colombia 2023")
 
         if st.checkbox(label="Analisis de incidencia Dengue por departamento"):
