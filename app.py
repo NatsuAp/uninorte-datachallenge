@@ -156,11 +156,6 @@ def villadiego_analysis():
 #        pr = data.profile_report()
 #        st_profile_report(pr)
 
-page_names_to_funcs = {
-    "Villadiego interactive visualization": villadiego_analysis,
-    #"Pandas Profile Report": all_join_analysis
-}
 
-demo_name = st.sidebar.selectbox("Choose Interactice Visualization To Review", page_names_to_funcs.keys())
-
-page_names_to_funcs[demo_name]()
+villadiego_analysis()
+    
