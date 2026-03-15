@@ -24,9 +24,14 @@ def load_netcdf_file(f_path):
 
 @st.cache_data
 def load_file(filename, sep=","):
-    df = pd.read_csv(filename, sep=sep)
-    df
-    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+    df = None
+    try:
+        df = pd.read_csv(filename, sep=sep)
+        df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+    except Exception as e:
+        st.write(f"Error al cargar el archivo: {e}")
+          
+    
     return df
 
 
