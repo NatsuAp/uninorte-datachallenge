@@ -26,6 +26,7 @@ def villadiego_analysis():
     if data_selection == "barranquilla":
         data_path
         data = load_file(data_path, sep=";")
+        st.write(data)
         # st.table(data.head(2))  *Da error al montar en streamlit
         st.write("Dengue en Barranquilla")
 
