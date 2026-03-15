@@ -23,6 +23,7 @@ def villadiego_analysis():
     data_selection = st.selectbox(label="Escoge datos a analizar", options=mapping.keys())
     data_path = mapping[data_selection]
     if data_selection == "barranquilla":
+        data_path
         data = load_file(data_path, sep=";")
         # st.table(data.head(2))  *Da error al montar en streamlit
         st.write("Dengue en Barranquilla")
@@ -64,6 +65,7 @@ def villadiego_analysis():
             st.plotly_chart(st.session_state.get("vill_plot_frequency_of_visits_over_time_plotly"))
 
     elif data_selection == "colombia":
+        data_path
         data = load_file(data_path, sep=",")
         #st.table(data.head(2)) *Da error al montar en streamlit
         st.write("Dengue en Colombia 2023")
