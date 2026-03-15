@@ -18,13 +18,13 @@ from src.villa_utils import (
 from src.utils import (load_file)
 
 def villadiego_analysis():
-    import streamlit as st
+    
     st.header("EDA Dengue")
-    data_selection = st.selectbox(label="Select Data to Analyze", options=mapping.keys())
+    data_selection = st.selectbox(label="Escoge datos a analizar", options=mapping.keys())
     data_path = mapping[data_selection]
     if data_selection == "barranquilla":
-        data = load_file(data_path, sep=";")
-        st.table(data.head(2))
+        # data = load_file(data_path, sep=";")
+        # st.table(data.head(2))
         st.write("Dengue en Barranquilla")
 
         if st.checkbox(label="Analisis duración de internado de casos de dengue"):
