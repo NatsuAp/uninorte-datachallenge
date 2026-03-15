@@ -7,3 +7,4 @@ basemap
 openpyxl
 streamlit
 scipy
+altair<5   
