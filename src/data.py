@@ -1,6 +1,6 @@
-QUILLA = "material_reto/barranquilla.csv"
-COL = "material_reto/colombia.csv"
-CLIMATE_COL = "material_reto/col_climate.nc"
+QUILLA = "data/assets/barranquilla.csv"
+COL = "data/assets/colombia.csv"
+CLIMATE_COL = "data/assets/col_climate.nc"
 
 mapping = {
     "barranquilla": QUILLA,
